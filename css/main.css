@@ -1,0 +1,17 @@
+
+input[type=submit] {
+    width: 10em;  height: 2.5em;
+}
+
+input[type=button] {
+    width: 10em;  height: 2.5em;
+}
+
+input[type=reset] {
+    width: 10em;  height: 2.5em;
+}
+
+#page 
+{
+margin: 10px;
+}
