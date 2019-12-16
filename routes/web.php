@@ -16,3 +16,5 @@ Route::get('/','VolokController@index')->name('volok');
 Route::get('/edit','VolokController@editform')->name('edit');
 Route::post('/update','VolokController@update')->name('update');
 Route::get('/view','VolokController@view')->name('view');
+Route::get('/addform','VolokController@addform')->name('addform');
+Route::post('/add','VolokController@add');

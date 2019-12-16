@@ -18,4 +18,39 @@ CREATE TABLE clients (
   PRIMARY KEY  (id)
 );
 
+
+DROP TABLE IF EXISTS client_helpers;
+CREATE TABLE client_helpers (
+  id int(11) NOT NULL auto_increment,
+  name varchar(250),  
+  tel varchar(100),  
+  tel2 varchar(100),  
+  tel3 varchar(100),  
+  email varchar(100),  
+  descr text,
+  no_sms tinyint(1) DEFAULT 0,
+  add_remove tinyint(1) DEFAULT 0,
+  full_sms tinyint(1) DEFAULT 0,
+  operational tinyint(1) DEFAULT 0,
+  opening tinyint(1) DEFAULT 0,
+  PRIMARY KEY  (id),
+  key name(name),
+  key email(email)
+);
+
+
+
 INSERT INTO clients (name, type, pult_number,ohran_system,address,person,dogovor,ikeys,payment,time,simcard,kadastr)
+
+
+ALTER TABLE clients add simcard2 varchar(100);
+ALTER TABLE clients add simcard_old varchar(100);
+ALTER TABLE client_helpers add column client_id int not NULL;
+CREATE INDEX client_helpers_client_id ON client_helpers(client_helpers);
+update clients set simacard_old=simcard;
+
+update clients set ikeys='нет' where ikeys is NULL;
+
+ALTER TABLE clients add person_old text;
+update clients set person_old=person;
+

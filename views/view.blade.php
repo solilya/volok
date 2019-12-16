@@ -38,6 +38,7 @@ h2 {text-align:center}
 			<tr><td>Абонент. плата:</td><td>{{ $client->payment }}</td></tr>
 			<tr><td>Расчетное время:</td><td>{{ $client->time }}</td></tr>
 			<tr><td>SIM - карта:</td><td>{{ $client->simcard }}</td></tr>			 
+			<tr><td>SIM - карта 2:</td><td>{{ $client->simcard2 }}</td></tr>	
 			<tr><td>Кадастровый номер:</td><td>{{ $client->kadastr }}</td></tr>
 			</table>			 	
 			<tr ><td align=center colspan=2><br><INPUT TYPE="button" VALUE="Изменить" onclick="javascript:window.location.href='edit?id={{ $client->id }}'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="К списку объектов" onclick="javascript:window.location.href='{{ route('volok') }}'">

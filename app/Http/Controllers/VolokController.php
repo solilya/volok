@@ -14,8 +14,13 @@ class VolokController extends Controller
     
 	public function index(Request $request)
 	{
+		$input = $request->all();
 		
-		$input=$_REQUEST;	
+		if (isset($input['del_id']))
+		{
+			Client::destroy($input['del_id']);
+			unset($request['del_id']);
+		}	
 		
 		$param=['id', 'pult_number', 'address', 'dogovor','gbr'];
 		$q = DB::table('clients');
@@ -38,11 +43,11 @@ class VolokController extends Controller
             });
 		}		
 		
-		if ($request->isMethod('post')) $clients=$q->paginate(50,'*','page',1);		
-		else $clients=$q->paginate(50); 
+		if ($request->isMethod('post')&&(!isset($input['del_id']))) $clients=$q->paginate(40,'*','page',1);		
+		else $clients=$q->paginate(40); 
+#		$clients=Client::paginate(40);
 		
 		session()->flashInput($request->input());
-#		$clients=Client::paginate(50);
 		return view('/find')->with(compact('clients'));
 	}
 	
@@ -69,7 +74,7 @@ class VolokController extends Controller
 		
 		foreach ($columns as $col)
 		{
-			$client->$col=$input[$col];		
+			if (($col !='simcard_old')and ($col !='person_old')) $client->$col=$input[$col];		
 		}
 		
 		$client->save();
@@ -85,13 +90,24 @@ class VolokController extends Controller
 		return view('/view')->with(['client'=>$client]);	
 	}
 	
-	public function new_object(Request $request)
+	
+	public function addform(Request $request)
+	{	
+		$gbr=DB::table('clients')
+             ->select('gbr')
+             ->distinct()
+             ->get();
+		return view('/addform')->with(['allgbr'=>$gbr]);
+	}
+	
+	public function add(Request $request)
 	{
 	
-		$input = $request->all();	
-
+		$input = $request->all();			
+	 	$fields=$request->only(['name','type','pult_number','ohran_system','address','person','dogovor','ikeys','payment','time','simcard','simcard2','kadastr','gbr']);	
+		$client = Client::create($fields);
+				
 		return view('/view')->with(['client'=>$client]);	
 	}
-
 
 }

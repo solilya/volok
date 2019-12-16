@@ -40,10 +40,19 @@ h2 {text-align:center}
 			<td valign=top>Адрес объекта:</td><td><textarea NAME="address" cols="52" rows="7">{{ $client->address }}</textarea></td></tr>
 			<tr><td valign=top>ФИО Заказчика и доверенных лиц, контактные телефоны:</td><TD><textarea NAME="person" cols="52" rows="7">{{ $client->person }}</textarea></td></tr></td>
 			<tr><td>№ и дата договора:</td><td><INPUT TYPE="text" NAME="dogovor" SIZE="50" MAXLENGTH="100" value="{{ $client->dogovor }}"></td></tr>
-			<tr><td>Наличие ключей:</td><td><INPUT TYPE="text" NAME="ikeys" SIZE="50" MAXLENGTH="100" value="{{ $client->ikeys }}"></td></tr>
+			<tr><td>Наличие ключей:</td>
+				<td>
+				<select name="ikeys">
+					@IF (($client->ikeys!='есть')AND($client->ikeys!='нет'))
+					<option value='{{ $client->ikeys }}' selected >{{ $client->ikeys }}</option>
+					@endif
+					<option value='есть' @IF ($client->ikeys=='есть') selected 	@endif >есть</option>
+					<option value='нет' @IF ($client->ikeys=='нет') selected 	@endif >нет</option>
+					</select></td></tr>
 			<tr><td>Абонент. плата:</td><td><INPUT TYPE="text" NAME="payment" SIZE="50" MAXLENGTH="100" value="{{ $client->payment }}"></td></tr>
 			<tr><td>Расчетное время:</td><td><INPUT TYPE="text" NAME="time" SIZE="50" MAXLENGTH="100" value="{{ $client->time }}"></td></tr>
 			<tr><td>SIM - карта:</td><td><INPUT TYPE="text" NAME="simcard" SIZE="50" MAXLENGTH="100" value="{{ $client->simcard }}"></td></tr>			 
+			<tr><td>Вторая SIM - карта:</td><td><INPUT TYPE="text" NAME="simcard2" SIZE="50" MAXLENGTH="100" value="{{ $client->simcard2 }}"></td></tr>			 
 			<tr><td>Кадастровый номер:</td><td><INPUT TYPE="text" NAME="kadastr" SIZE="50" MAXLENGTH="100" value="{{ $client->kadastr }}"></td></tr>			 	
 			<tr><td align=center colspan=2><br><INPUT TYPE="submit" VALUE="Изменить">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="reset" VALUE="Восстановить">
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="К списку объектов" onclick="javascript:window.location.href='{{ route('volok') }}'">

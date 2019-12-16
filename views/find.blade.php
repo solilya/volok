@@ -18,7 +18,18 @@ function resetForm()
 	document.forms["myform"]["dogovor"].value='';
 	document.forms["myform"]["pult_number"].value='';
 	document.forms["myform"]["address"].value='';
-	document.forms["myform"]["gbr"].value='';
+	document.forms["myform"]["gbr"].value='';	
+}
+
+function del(del_id)
+{
+	if (!confirm("Удалить объект?")) { return false }
+	var del_input = document.createElement("input");
+	del_input.setAttribute("type", "hidden");
+	del_input.setAttribute("name", "del_id");
+	del_input.setAttribute("value", del_id);
+	document.getElementById("idmyform").appendChild(del_input);
+	document.forms["myform"].submit();
 }
 @endsection
 
@@ -50,13 +61,11 @@ function resetForm()
 			<INPUT TYPE="text" NAME="dogovor" SIZE="30" MAXLENGTH="100" value="{{ old('dogovor') }}"></td>
 			</tr>			
 
-	<tr><td align= left>&nbsp;</td>
-	
-	<td align=right><BR><INPUT TYPE="button" VALUE="Очистить" onclick="resetForm()">
+	<tr><td colspan=3 align=center><BR><INPUT TYPE="button" VALUE="Новый клиент" onclick="javascript:window.location.href='{{ route('addform') }}'"">
+&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Очистить" onclick="resetForm()">
 &nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="submit" VALUE="Поиск">
 @csrf
 </td>
-		<td>&nbsp;</td>
 </tr>
 			</table>
 </FORM>		
@@ -67,7 +76,7 @@ function resetForm()
 		<table border='1' width='100%' style='border-collapse: collapse' bordercolor='#000000'>
 		<tr>
 @php
-$names = ['id клиента', 'Наименование объекта','Пультовый номер','ГБР','Система охраны','Адрес обьекта', 'ФИО Заказчика и доверенных лиц','№ и дата договора',  'Абонент. плата',	'Расчетное время',	'SIM - карта'];
+$names = ['id клиента', 'Наименование объекта','Пультовый номер','ГБР','Система охраны','Адрес обьекта', 'ФИО Заказчика и доверенных лиц','№ и дата договора',  'Абонент. плата',	'Расчетное время',	'Статус'];
 @endphp		
 		@FOREACH($names as $name)
 		<td bgcolor='#000000' background="{{ asset('img/table_header.jpg') }}" width='70px' align='center'><font color='#FFFFFF'>{{ $name }}</font></td>
@@ -84,15 +93,15 @@ $names = ['id клиента', 'Наименование объекта','Пул
 		<td align='center'>{{ $client->ohran_system }}</td>
 		<td align='center'>{{ $client->address }}</td>
 		<td align='center'>{{ $client->person }}</td>
-		<td align='center'>{{ $client->dogovor }}</td>	
+		<td align='center' width=100>{{ $client->dogovor }}</td>	
 		<td align='center'>{{ $client->payment }}</td>
 		<td align='center'>{{ $client->time }}</td>
-		<td align='center'>{{ $client->simcard }}</td>
-		<td align='center'><a href="edit?id={{ $client->id }}"><img src="{{ asset('img/edit.png') }}" alt="Редактировать" width="50"></a> <a href="view?id={{ $client->id }}"><img src="{{ asset('img/view.png') }}" alt="Детальеый просмотр" width="50"></a></td>
+		<td align='center'></td>
+		<td align='center' width=180><a href="{{ route('edit') }}?id={{ $client->id }}"><img src="{{ asset('img/edit.png') }}" alt="Редактировать" width="50"></a> <a href="{{ route('view') }}?id={{ $client->id }}"><img src="{{ asset('img/view.png') }}" alt="Детальный просмотр" width="50"></a> <a href="#"><img src="{{ asset('img/delete.png') }}" alt="Удалить" width="46" onClick="javascript:del({{ $client->id }})"></a></td>
 		</tr>
 		@endforeach 	
 		</table>
-		{{ $clients->appends(Input::get())->links() }}
+		{{ $clients->appends(Input::get())->onEachSide(2)->links() }}
 		
 		
 			
