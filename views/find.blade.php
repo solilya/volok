@@ -18,7 +18,8 @@ function resetForm()
 	document.forms["myform"]["dogovor"].value='';
 	document.forms["myform"]["pult_number"].value='';
 	document.forms["myform"]["address"].value='';
-	document.forms["myform"]["gbr"].value='';	
+	document.forms["myform"]["gbr"].value='';		
+	document.forms["myform"].status.selectedIndex = 0;
 }
 
 function del(del_id)
@@ -42,28 +43,36 @@ function del(del_id)
 		<tr><td width=100%>	
 		<div class="form_find" >
 		<Form Action="" Method=post name=myform id=idmyform>
-			<table border=0 width=900 align=center>		
+			<table border=0 width=900 align=center >		
 			<tr>
-			<td width=200>id объекта :<br>
+			<td width=200>id объекта:<br>
 			<INPUT TYPE="text" NAME="id" SIZE="20" MAXLENGTH="20" value="{{ old('id') }}"></td>
-			<td width=360>Клиент :<br>
+			<td width=360>Клиент:<br>
 			<INPUT TYPE="text" NAME="name" SIZE="45" MAXLENGTH="255" value="{{ old('name') }}"></td>
 			<td>ГБР :<BR>
 			<INPUT TYPE="text" NAME="gbr" SIZE="30" MAXLENGTH="30" value="{{ old('gbr') }}"></td>
-						
-			</tr>
+			<td>Статус клиента:<br>
+		    <select name="status" >
+		    <option value=''></option>
+			@foreach ($status as $st=>$status_id)	
+				<option value='{{ $st }}' @IF ($st==old('status')) selected 	@endif>{{ $status_id }}</option>
+			@endforeach
+			</select>
+			</td></tr>						
+			
 			<tr>
 			<td>Пультовый объекта:<br>
 			<INPUT TYPE="text" NAME="pult_number" SIZE="20" MAXLENGTH="20" value="{{ old('pult_number') }}"></td>
 			<td>Адрес:<br>
 			<INPUT TYPE="text" NAME="address" SIZE="45" MAXLENGTH="255" value="{{ old('address') }}"></td>
-			<td>Договор :<BR>
+			<td width=240>Договор :<BR>
 			<INPUT TYPE="text" NAME="dogovor" SIZE="30" MAXLENGTH="100" value="{{ old('dogovor') }}"></td>
+			<TD> &nbsp;</td>
 			</tr>			
 
-	<tr><td colspan=3 align=center><BR><INPUT TYPE="button" VALUE="Новый клиент" onclick="javascript:window.location.href='{{ route('addform') }}'"">
-&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Очистить" onclick="resetForm()">
+	<tr><td colspan=4 align=center><BR><INPUT TYPE="button" VALUE="Новый клиент" onclick="javascript:window.open('{{ route('addform') }}','addform', 'width=900,height=750,location=0,status=0,menubar=0,toolbar=0,directories=0,scrollbars=1'); return false;" >&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Очистить" onclick="resetForm()">
 &nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="submit" VALUE="Поиск">
+&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Заявки" onclick="javascript:window.location.href = '{{ route('list_ticket') }}'; return false;";>
 @csrf
 </td>
 </tr>
@@ -73,31 +82,38 @@ function del(del_id)
 </td></tr>
 <tr><TD>		
 		<div class="result" id=find_res>	
-		<table border='1' width='100%' style='border-collapse: collapse' bordercolor='#000000'>
+		<table border='1' width='100%' style='border-collapse: collapse' bordercolor='#000000' cellpadding=3>
 		<tr>
 @php
-$names = ['id клиента', 'Наименование объекта','Пультовый номер','ГБР','Система охраны','Адрес обьекта', 'ФИО Заказчика и доверенных лиц','№ и дата договора',  'Абонент. плата',	'Расчетное время',	'Статус'];
+$names = ['id клиента', 'Наименование объекта','Пультовый номер','ГБР','Система охраны','Адрес обьекта', 'ФИО Заказчика','Телефон','№ и дата договора',  'Абонент. плата',	'Расчетное время',	'Статус'];
 @endphp		
 		@FOREACH($names as $name)
-		<td bgcolor='#000000' background="{{ asset('img/table_header.jpg') }}" width='70px' align='center'><font color='#FFFFFF'>{{ $name }}</font></td>
+		<td bgcolor='#000000' background="{{ asset('img/table_header.jpg') }}" align='center'><font color='#FFFFFF'>{{ $name }}</font></td>
 		@endforeach 		
 		<td bgcolor='#000000' background="{{ asset('img/table_header.jpg') }}" align='center' width='140px'><font color='#FFFFFF'>Действия</font></td></tr>		
 		
 		
 		@FOREACH($clients as $client)		
 		<tr onMouseover="bgColor='#fff6cd'" onMouseOut="bgColor='#cfe9fe'" bgcolor='#cfe9fe' align='center'> 		
-		<td align='center'>{{ $client->id }}</td>
-		<td align='center'>{{ $client->name }}</td>
-		<td align='center'>{{ $client->pult_number }}</td>
-		<td align='center'>{{ $client->gbr }}</td>
-		<td align='center'>{{ $client->ohran_system }}</td>
-		<td align='center'>{{ $client->address }}</td>
-		<td align='center'>{{ $client->person }}</td>
-		<td align='center' width=100>{{ $client->dogovor }}</td>	
-		<td align='center'>{{ $client->payment }}</td>
-		<td align='center'>{{ $client->time }}</td>
-		<td align='center'></td>
-		<td align='center' width=180><a href="{{ route('edit') }}?id={{ $client->id }}"><img src="{{ asset('img/edit.png') }}" alt="Редактировать" width="50"></a> <a href="{{ route('view') }}?id={{ $client->id }}"><img src="{{ asset('img/view.png') }}" alt="Детальный просмотр" width="50"></a> <a href="#"><img src="{{ asset('img/delete.png') }}" alt="Удалить" width="46" onClick="javascript:del({{ $client->id }})"></a></td>
+		<td>{{ $client->id }}</td>
+		<td>{{ $client->name }}</td>
+		<td>{{ $client->pult_number }}</td>
+		<td width=50>{{ $client->gbr }}</td>
+		<td>{{ $client->ohran_system }}</td>
+		<td >{{ $client->address }}</td>
+		<td>{{ $client->person }}</td>
+		<td width=120>{{ $client->tel }}
+		@IF ($client->tel2 !='')<br>{{ $client->tel2 }}@endif
+		@IF ($client->tel3 !='')<br>{{ $client->tel3 }}@endif</td>
+		<td width=130>{{ $client->dogovor }}</td>	
+		<td>{{ $client->payment }}</td>
+		<td>{{ $client->time }}</td>
+		<td>@IF ($client->status !='') {{ $status[$client->status] }} @endif</td>
+		<td width=240><a href="#" onclick="window.open( '{{ route('edit') }}?id={{ $client->id }}','newWine{{ $client->id }}', 'width=900,height=850,location=0,status=0,menubar=0,toolbar=0,directories=0,scrollbars=1'); return false;" ><img src="{{ asset('img/edit.png') }}" alt="Редактировать" title="Редактировать" width="50"></a> <a href="#" onclick="window.open( '{{ route('view') }}?id={{ $client->id }}','newWinv{{ $client->id }}', 'width=900,height=750,location=0,status=0,menubar=0,toolbar=0,directories=0,scrollbars=1'); return false;" ><img src="{{ asset('img/view.png') }}" alt="Детальный просмотр" title="Детальный просмотр" width="50"></a> 
+		<a href="#" onclick="window.open( '{{ route('addform_ticket') }}?id={{ $client->id }}','addTicket{{ $client->id }}', 'width=900,height=850,location=0,status=0,menubar=0,toolbar=0,directories=0,scrollbars=1'); return false;" ><img src="{{ asset('img/arrow.png') }}" alt="Создать заявку в отделы" title="Создать заявку в отделы" width="50"></a> 
+		
+		<a href="#"><img src="{{ asset('img/delete.png') }}" alt="Удалить" title="Удалить" width="46" onClick="javascript:del({{ $client->id }})"></a></td>
+	
 		</tr>
 		@endforeach 	
 		</table>

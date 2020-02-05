@@ -20,31 +20,29 @@ h2 {text-align:center}
 		<Form Action="{{ route('volok') }}" Method=post name=myform id=idmyform>
 		<table border=0 align=center>
 		<tr><TD>
-			<table border=1 width=600 align=center cellpadding=3 cellspacing=0>		
-			<tr align=left>
-			<td width=200>Наименование объекта:</td><td>{{ $client->name }}</td></tr>
-			<tr><td>ГБР</td><td>{{ $client->gbr }}</td></tr>		
-			<td>Тип охран. сигнализации:</td><td>{{ $client->type }}</td>			
-			</tr>		
-			<tr>
-			<td>Пультовый объекта:</td><td>{{ $client->pult_number }}</td>
-			</tr><TR>
-			<td>Система охраны:</td><td>{{ $client->ohran_system }}</td>
-			</tr>
-			<td valign=top>Адрес объекта:</td><td>{{ $client->address }}</td></tr>
-			<tr><td valign=top>ФИО Заказчика и доверенных лиц, контактные телефоны:</td><TD>{{ $client->person }}</td></tr></td>
-			<tr><td>№ и дата договора:</td><td>{{ $client->dogovor }}</td></tr>
-			<tr><td>Наличие ключей:</td><td>{{ $client->ikeys }}</td></tr>
-			<tr><td>Абонент. плата:</td><td>{{ $client->payment }}</td></tr>
-			<tr><td>Расчетное время:</td><td>{{ $client->time }}</td></tr>
-			<tr><td>SIM - карта:</td><td>{{ $client->simcard }}</td></tr>			 
-			<tr><td>SIM - карта 2:</td><td>{{ $client->simcard2 }}</td></tr>	
-			<tr><td>Кадастровый номер:</td><td>{{ $client->kadastr }}</td></tr>
-			</table>			 	
-			<tr ><td align=center colspan=2><br><INPUT TYPE="button" VALUE="Изменить" onclick="javascript:window.location.href='edit?id={{ $client->id }}'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="К списку объектов" onclick="javascript:window.location.href='{{ route('volok') }}'">
-			@csrf
+<ul class="nav nav-tabs"  role="tablist">
+<li class="nav-item"><a class="nav-link active" role="tab" aria-controls="home" aria-selected="true" data-toggle="tab" href="#panel1" >Общая инфо</a></li>
+<li class="nav-item"><a class="nav-link"  data-toggle="tab" href="#persons" role="tab" aria-controls="home" aria-selected="true">Доверенные лица</a></li>
+<li class="nav-item"><a class="nav-link"  data-toggle="tab" href="#photo" role="tab" aria-controls="home" aria-selected="true" ></a></li>
+</ul>
+<div class="tab-content">
+<div id="photo" class="tab-pane fade">
+<BR>
+</div>
+
+<div id="panel1"  class="tab-pane fade show active" >
+		@include('/client_card/common_info')			 	
+			<div align=center><br><INPUT TYPE="button" VALUE="Изменить" onclick="javascript:window.location.href='{{ route('edit') }}?id={{ $client->id }}'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Закрыть" onclick='javascript: window.open("", "_self");window.close();'"></div>
+			
+</div>			
+<div id="persons" class="tab-pane fade">			
+@include('/client_card/persons')		
+<div align=center ><br><INPUT TYPE="button" VALUE="Изменить" onclick="javascript:window.location.href='{{ route('view_helpers') }}?id={{ $client->id }}'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Закрыть" onclick='javascript: window.open("", "_self");window.close();'"></div>
+</div>
+
+			
 			</td></tr>
 			</table>
-
+			@csrf
 </FORM>			
 @endsection
