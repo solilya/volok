@@ -35,7 +35,7 @@ require("../html/arc/combat_config.php");
 	}
 		
 	print "поле simcard успешно обновлено\n";
-*/
+
 
 	$sth = $db->prepare("delete from client_helpers ") or die ('Can not prepare sql query: "' .  mysqli_error($db).'"'); 	
 	if (!$sth->execute()) { die("Error: mysqli_error($db)!");	}	
@@ -72,10 +72,11 @@ require("../html/arc/combat_config.php");
 		for ($i=0;$i<$len;$i++)
 		{							
 			for ($j=1;$j<count($matches[$i]);$j++)
-			{			
-				$matches[$i][$j]=preg_replace('/^[, \n]*/','',$matches[$i][$j]);
-				$matches[$i][$j]=preg_replace('/[, \n]*$/','',$matches[$i][$j]);
-			}
+			{
+*/	
+//				$matches[$i][$j]=preg_replace('/^[, \n]*/','',$matches[$i][$j]);
+//				$matches[$i][$j]=preg_replace('/[, \n]*$/','',$matches[$i][$j]);
+/*			}
 			
 			$name=$matches[$i][1];
 			$tel=$matches[$i][2];
@@ -97,7 +98,26 @@ require("../html/arc/combat_config.php");
 			}				
 		}
 	}
-
-
+*/
+	$sth = $db->prepare("Update clients SET ohran_system_type='Jablotron' where ohran_system LIKE '%Jablotron%'")  or die ('Can not prepare sql query: 1"' .  mysqli_error($db).'"'); 	
+	if (!$sth->execute()) { die(mysqli_error($db)); }	
+	$sth = $db->prepare("Update clients SET ohran_system_type='Jablotron 100' where ohran_system LIKE '%Jablotron 100%'")  or die ('Can not prepare sql query: 2"' .  mysqli_error($db).'"'); 
+	if (!$sth->execute()) { die(mysqli_error($db)); }		
+	$sth = $db->prepare("Update clients SET ohran_system_type='Proxyma' where ohran_system LIKE '%Proxyma%'")  or die ('Can not prepare sql query: 3"' .  mysqli_error($db).'"'); 
+	if (!$sth->execute()) { die(mysqli_error($db)); }		
+	$sth = $db->prepare("Update clients SET ohran_system_type='Proxyma W500' where ohran_system LIKE '%Proxyma W500%'")  or die ('Can not prepare sql query: 4"' .  mysqli_error($db).'"'); 
+	if (!$sth->execute()) { die(mysqli_error($db)); }		
+	$sth = $db->prepare("Update clients SET ohran_system_type='Proxyma W400' where ohran_system LIKE '%Proxyma W400%'")  or die ('Can not prepare sql query: 5"' .  mysqli_error($db).'"'); 
+	if (!$sth->execute()) { die(mysqli_error($db)); }					
+	$sth = $db->prepare("Update clients SET ohran_system_type='Proxyma S800' where ohran_system LIKE '%Proxyma S800%'")  or die ('Can not prepare sql query: 6"' .  mysqli_error($db).'"'); 
+	if (!$sth->execute()) { die(mysqli_error($db)); }		
+	$sth = $db->prepare("Update clients SET ohran_system_type='Proxyma Ритм' where ohran_system LIKE '%Proxyma Ритм%'")  or die ('Can not prepare sql query: 7"' .  mysqli_error($db).'"'); 
+	if (!$sth->execute()) { die(mysqli_error($db)); }	
+	$sth = $db->prepare("Update clients SET ohran_system_type='Profi' where (ohran_system LIKE '%Jablotron Profi%') or (ohran_system like '%Jablotron 63%')") or die ('Can not prepare sql query: 8"' .  mysqli_error($db).'"'); 
+	if (!$sth->execute()) { die(mysqli_error($db)); }	
+	$sth = $db->prepare("Update clients SET ohran_system_type='OASIS' where ohran_system LIKE '%Jablotron 82%' or ohran_system like '%Jablotron 80%' or ohran_system like '%Oasis%'") or die ('Can not prepare sql query: 9"' .  mysqli_error($db).'"'); 
+	if (!$sth->execute()) { die(mysqli_error($db)); }	
+	$sth = $db->prepare("Update clients SET ohran_system_type='Eldes' where ohran_system LIKE '%Eldes%'")  or die ('Can not prepare sql query: 10"' .  mysqli_error($db).'"'); 
+	if (!$sth->execute()) { die(mysqli_error($db)); }		
 	mysqli_close($db);
 ?>

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Config;
 class Client extends Model
 {
     public $timestamps = false;
-    protected $fillable=['name','type','pult_number','ohran_system','address','person','dogovor','ikeys','payment','time','simcard','simcard2','kadastr','gbr','status','email' ,'tel', 'tel2', 'tel3','sms'];
+    protected $fillable=['name','type','pult_number','ohran_system','ohran_system_type','address','person','dogovor','ikeys','payment','time','simcard','simcard2','kadastr','gbr','status','email' ,'tel', 'tel2', 'tel3','sms'];
     protected $appends = ['status_descr','person_list'];
        
        

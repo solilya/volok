@@ -53,7 +53,7 @@ ALTER TABLE clients add tel2 varchar(100);
 ALTER TABLE clients add tel3 varchar(100);
 ALTER TABLE clients add email varchar(100);
 ALTER TABLE clients add sms int default 1;
-
+ALTER TABLE clients add ohran_system_type varchar(255);
 
 ALTER TABLE client_helpers add column client_id int not NULL;
 CREATE INDEX client_helpers_client_id ON client_helpers(client_helpers);

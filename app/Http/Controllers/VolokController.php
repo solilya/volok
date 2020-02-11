@@ -97,7 +97,7 @@ class VolokController extends Controller
 		
 		foreach ($columns as $col)
 		{
-			if (($col !='simcard_old')and ($col !='person_old')) $client->$col=$input[$col];		
+			if (($col !='ohran_system_type') and ($col !='simcard_old')and ($col !='person_old')) $client->$col=$input[$col];		
 		}
 		
 		$client->save();

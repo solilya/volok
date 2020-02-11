@@ -8,9 +8,11 @@ use Validator;
 use App\Client;
 use App\Ticket;
 use App\Comment;
+use App\Sms_na_pribor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Schema;
+use App\Goip;
 
 
 
@@ -148,8 +150,9 @@ class TicketController extends Controller
 	}
 	
 	
+	
 	public function search_ticket($input)
-	{
+		{
 
 		$lim=30;
 		if (empty($input['department_id'])) $department_id='';
@@ -226,5 +229,23 @@ class TicketController extends Controller
 		return $tickets;
 	}	
 
+
+	public function send_sms_for_pribor_form(Request $request)
+	{
+		$input = $request->all();
+		$client= Client::find($input['client_id']);
+		$sms=Sms_na_pribor::select('id','name','sms','type')->where('type',$client->ohran_system_type)->distinct()->get();
+		return view('/ticket/sms_na_pribor')->with(['sms_na_pribor'=>$sms,'client'=>$client]);	
+	}	
+
+	
+	public function sms_history_for_pribor(Request $request)
+	{
+		$goip= New Goip();	
+		$goip->sms_history();
+		return view('/ticket/sms_history_for_pribor')->with(['sendid'=>$goip->sendid,'rcv'=>$goip->rcv]);	
+	}	
+
+	
 }
 ?>

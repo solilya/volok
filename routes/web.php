@@ -36,6 +36,7 @@ Route::post('/update_teh_ticket','TicketController@update_teh_ticket')->name('up
 Route::get('/edit_teh_ticket','TicketController@edit_teh')->name('edit_teh_ticket');
 Route::get('/print_zakaz_narjad','TicketController@print_zakaz_narjad')->name('print_zakaz_narjad');
 Route::get('/send_sms_for_pribor_form','TicketController@send_sms_for_pribor_form')->name('send_sms_for_pribor_form');
+Route::get('/sms_history_for_pribor','TicketController@sms_history_for_pribor')->name('sms_history_for_pribor');
 
 
 
