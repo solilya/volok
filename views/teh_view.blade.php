@@ -63,7 +63,7 @@ h2 {text-align:center}
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Закрыть" onclick='javascript: window.open("", "_self");window.close();'">
 
 	@IF (($ticket->status!=0)&&($ticket->client_id))
-	<br><br><INPUT TYPE="button" VALUE="Отправить СМС на прибор" onclick="javascript:window.location.href='{{ route('send_sms_for_pribor_form') }}?id={{ $ticket->client_id }}'" style="width:220">
+	<br><br><INPUT TYPE="button" VALUE="Отправить СМС на прибор" onclick="javascript:window.location.href='{{ route('send_sms_for_pribor_form') }}?client_id={{ $ticket->client_id }}'" style="width:220">
 	@endif
 	
 	</div>

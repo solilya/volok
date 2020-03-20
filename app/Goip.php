@@ -22,10 +22,11 @@ class Goip
   	{
 		$this->db = mysqli_connect($this->hostname, $this->dbuser, $this->dbpwd, $this->dbname) or die('Ошибка подключения к базе данных. Проверьте интернет-соединение или обратитесь к администратору');
 		mysqli_set_charset($this->db,'utf8');
-		$this->client_id=$_GET['zid'] ?? null;
+		$this->client_id=$_GET['id'] ?? null;
 
 		$this->sim1=$_GET['sim1'] ?? null;
 		$this->sim2=$_GET['sim2'] ?? null;
+		$this->sim=$_GET['sim'] ?? null;
 
 		$this->phone=$this->sim1;
 		$this->smsphone=$this->phone;	
@@ -86,6 +87,30 @@ curl_close($ch);
 
 	}
 
+
+function send_sms()
+{
+
+$txt=$_GET['txt'] ?? null;
+$phone=$this->sim;
+$phone=str_replace("(","",$phone);
+$phone=str_replace(")","",$phone);
+$phone=str_replace(" ","",$phone);
+$phone=str_replace("+","",$phone);
+$phone=str_replace("-","",$phone);
+$smsphone=$phone;	
+
+$togoip="http://192.168.2.13/goip/en/dosend.php?USERNAME=root&PASSWORD=root&smsprovider=1&smsnum=".$smsphone."&method=2&Memo=".urlencode($txt)."";
+
+
+
+$ch = curl_init($togoip);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+$body = curl_exec($ch);
+curl_close($ch);
+
+}
 
 
    function __destruct() 

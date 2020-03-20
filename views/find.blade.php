@@ -37,7 +37,6 @@ function del(del_id)
 
 
 @section('content')
-		
 	<div id="main"  >
 		<table border=0 width=100%>
 		<tr><td width=100%>	
@@ -86,12 +85,16 @@ function del(del_id)
 		<tr>
 @php
 $names = ['id клиента', 'Наименование объекта','Пультовый номер','ГБР','Система охраны','Адрес обьекта', 'ФИО Заказчика','Телефон','№ и дата договора',  'Абонент. плата',	'Расчетное время',	'Статус'];
+$todel=0;
 @endphp		
 		@FOREACH($names as $name)
 		<td bgcolor='#000000' background="{{ asset('img/table_header.jpg') }}" align='center'><font color='#FFFFFF'>{{ $name }}</font></td>
 		@endforeach 		
 		<td bgcolor='#000000' background="{{ asset('img/table_header.jpg') }}" align='center' width='140px'><font color='#FFFFFF'>Действия</font></td></tr>		
 		
+@can('check_rights', 'del_clients')
+	<?php $todel=1; ?>
+@endcan
 		
 		@FOREACH($clients as $client)		
 		<tr onMouseover="bgColor='#fff6cd'" onMouseOut="bgColor='#cfe9fe'" bgcolor='#cfe9fe' align='center'> 		
@@ -112,7 +115,10 @@ $names = ['id клиента', 'Наименование объекта','Пул
 		<td width=240><a href="#" onclick="window.open( '{{ route('edit') }}?id={{ $client->id }}','newWine{{ $client->id }}', 'width=900,height=850,location=0,status=0,menubar=0,toolbar=0,directories=0,scrollbars=1'); return false;" ><img src="{{ asset('img/edit.png') }}" alt="Редактировать" title="Редактировать" width="50"></a> <a href="#" onclick="window.open( '{{ route('view') }}?id={{ $client->id }}','newWinv{{ $client->id }}', 'width=900,height=750,location=0,status=0,menubar=0,toolbar=0,directories=0,scrollbars=1'); return false;" ><img src="{{ asset('img/view.png') }}" alt="Детальный просмотр" title="Детальный просмотр" width="50"></a> 
 		<a href="#" onclick="window.open( '{{ route('addform_ticket') }}?id={{ $client->id }}','addTicket{{ $client->id }}', 'width=900,height=850,location=0,status=0,menubar=0,toolbar=0,directories=0,scrollbars=1'); return false;" ><img src="{{ asset('img/arrow.png') }}" alt="Создать заявку в отделы" title="Создать заявку в отделы" width="50"></a> 
 		
+
+		@if ($todel==1)
 		<a href="#"><img src="{{ asset('img/delete.png') }}" alt="Удалить" title="Удалить" width="46" onClick="javascript:del({{ $client->id }})"></a></td>
+		@endif
 	
 		</tr>
 		@endforeach 	

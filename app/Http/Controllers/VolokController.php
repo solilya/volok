@@ -14,7 +14,11 @@ use Schema;
 
 class VolokController extends Controller
 {
-    
+   	public function __construct()
+	{
+    	$this->middleware('auth');
+	}
+
 	public function index(Request $request)
 	{
 		$input = $request->all();
@@ -60,7 +64,7 @@ class VolokController extends Controller
 		if ($request->isMethod('post')&&(!isset($input['del_id']))) $clients=$q->paginate(40,'*','page',1);		
 		else $clients=$q->paginate(40); 			
 /* 
-#отображение доверенных лиц		
+#РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ РґРѕРІРµСЂРµРЅРЅС‹С… Р»РёС†		
 		foreach ($clients as $client)	
 		{
 			$cl= New Client();
@@ -140,7 +144,7 @@ class VolokController extends Controller
 		return view('/view')->with(['client'=>$client]);	
 	}
 
-#Доверенные лица
+#Р”РѕРІРµСЂРµРЅРЅС‹Рµ Р»РёС†Р°
 
 public function view_helpers(Request $request)
 	{	

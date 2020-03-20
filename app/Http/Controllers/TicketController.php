@@ -18,6 +18,12 @@ use App\Goip;
 
 class TicketController extends Controller
 {
+
+	public function __construct()
+	{
+    	$this->middleware('auth');
+	}
+
 	public function addform(Request $request)
 	{
 		$client=Client::find($request->input('id'));		
@@ -246,6 +252,13 @@ class TicketController extends Controller
 		return view('/ticket/sms_history_for_pribor')->with(['sendid'=>$goip->sendid,'rcv'=>$goip->rcv]);	
 	}	
 
+	public function send_sms_for_pribor(Request $request)
+	{	
+		$input = $request->all();	
+		$goip= New Goip();	
+		$goip->send_sms();
+		return redirect()->route('send_sms_for_pribor_form',['client_id'=>$input['client_id']]);
+	}	
 	
 }
 ?>
